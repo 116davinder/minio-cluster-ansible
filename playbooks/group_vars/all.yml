@@ -1,0 +1,13 @@
+---
+
+minio_user: root
+minio_group: root
+
+# below location should be same on all servers.
+minio_data_dir: /opt/minio
+minio_log_dir: /var/log
+
+# Don't change below vars .. untill you know what you doing.
+minio_default_install_dir: /usr/local/bin
+minio_default_config_dir: "/root/.minio"
+mini_config_json_version: 19

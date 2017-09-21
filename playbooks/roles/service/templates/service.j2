@@ -1,0 +1,15 @@
+[Unit]
+Description=minio agent
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+User={{ minio_user }}
+Restart=on-failure
+ExecStart={{ minio_default_install_dir }}/minio server -C {{ minio_default_config_dir }} {% for server in groups["minio"] %} http://{{ server }}{{ minio_data_dir }} {% endfor %}
+
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target

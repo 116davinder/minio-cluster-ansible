@@ -1,0 +1,27 @@
+---
+
+- name: Downloading Minio | AMD-64 bit | {{ minio_default_install_dir }}/minio
+  get_url:
+    url: https://dl.minio.io/server/minio/release/linux-amd64/minio
+    dest: "{{ minio_default_install_dir }}/minio"
+    mode: 0775
+    owner: "{{ minio_user }}"
+    group: "{{ minio_group }}"
+
+- name: Creating Minio Access Key
+  set_fact:
+    minio_access_key: "{{ ansible_fqdn | hash('md5') }}"
+  run_once: true
+
+- name: Creating Minio Secret Key
+  set_fact:
+    minio_secret_key: "{{ ansible_fqdn | hash('sha1') }}"
+  run_once: true
+
+- name: Creating Config.json | from Template
+  template:
+    src: config.json.j2
+    dest: "{{ minio_default_config_dir }}/config.json"
+    owner: "{{ minio_user }}"
+    group: "{{ minio_group }}"
+    mode: 0600

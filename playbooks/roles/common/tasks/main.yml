@@ -1,0 +1,29 @@
+---
+
+- name: Installing Common Packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - wget
+    - net-tools
+
+- name: Creating minio Group | {{ minio_group }}
+  group:
+    name: "{{ minio_group }}"
+    state: present
+
+- name: Creating minio User | {{ minio_user }}
+  user:
+    name: "{{ minio_user }}"
+    state: present
+    group: "{{ minio_group }}"
+
+- name: Creating Minio Required Dirs | {{ minio_data_dir }} | {{ minio_default_config_dir }}
+  file:
+    dest: "{{ item }}"
+    state: directory
+    recurse: true
+  with_items:
+    - "{{ minio_default_config_dir }}"
+    - "{{ minio_data_dir }}"

@@ -1,0 +1,19 @@
+---
+
+- name: Applying Common Tasks
+  gather_facts: true
+  hosts: minio
+  roles:
+    - common
+
+- name: Installing Minio
+  gather_facts: true
+  hosts: minio
+  roles:
+    - install
+
+- name: Creating/Starting Minio Service
+  gather_facts: true
+  hosts: minio
+  roles:
+    - service
